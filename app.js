@@ -6,38 +6,34 @@ function generatePDF() {
     let date = document.getElementById("date").value;
     let price = document.getElementById("price").value;
 
-    const div = document.createElement("div");
-    div.style.cssText = `
-        width: 600px;
-        padding: 40px;
-        font-family: Arial, sans-serif;
-        direction: rtl;
-        background: white;
-        position: fixed;
-        top: -9999px;
-    `;
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
-    div.innerHTML = `
-        <h2 style="text-align:center">🏥 عيادة طبيب الأطفال</h2>
-        <hr>
-        <p>👨‍⚕️ الطبيب: ${doctor}</p>
-        <p>👶 الطفل: ${name}</p>
-        <p>🎂 العمر: ${age}</p>
-        <p>📞 الهاتف: ${phone}</p>
-        <p>📅 التاريخ: ${date}</p>
-        <p>💰 الثمن: ${price}</p>
-        <hr>
-        <p style="text-align:center">✔ تم تأكيد الموعد بنجاح</p>
-    `;
+    doc.setFillColor(255, 255, 255);
+    doc.rect(0, 0, 210, 297, 'F');
 
-    document.body.appendChild(div);
+    doc.setFontSize(18);
+    doc.setTextColor(0, 102, 204);
+    doc.text("Pediatric Clinic", 105, 20, { align: "center" });
+    doc.text("Appointment Confirmation", 105, 32, { align: "center" });
 
-    html2canvas(div).then(canvas => {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        const img = canvas.toDataURL("image/png");
-        doc.addImage(img, "PNG", 10, 10, 190, 0);
-        doc.save("appointment.pdf");
-        document.body.removeChild(div);
-    });
+    doc.setDrawColor(0, 102, 204);
+    doc.line(20, 38, 190, 38);
+
+    doc.setFontSize(12);
+    doc.setTextColor(0, 0, 0);
+    doc.text("Doctor: " + doctor, 20, 55);
+    doc.text("Patient: " + name, 20, 70);
+    doc.text("Age: " + age, 20, 85);
+    doc.text("Phone: " + phone, 20, 100);
+    doc.text("Date: " + date, 20, 115);
+    doc.text("Price: " + price, 20, 130);
+
+    doc.line(20, 140, 190, 140);
+
+    doc.setTextColor(0, 150, 0);
+    doc.setFontSize(14);
+    doc.text("Appointment Confirmed Successfully!", 105, 155, { align: "center" });
+
+    doc.save("appointment.pdf");
 }
