@@ -1,8 +1,4 @@
 function generatePDF() {
-
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
     let doctor = document.getElementById("doctor").value;
     let name = document.getElementById("name").value;
     let age = document.getElementById("age").value;
@@ -10,24 +6,38 @@ function generatePDF() {
     let date = document.getElementById("date").value;
     let price = document.getElementById("price").value;
 
-    doc.setFontSize(18);
-    doc.text("🏥 عيادة طبيب الأطفال", 20, 20);
+    const div = document.createElement("div");
+    div.style.cssText = `
+        width: 600px;
+        padding: 40px;
+        font-family: Arial, sans-serif;
+        direction: rtl;
+        background: white;
+        position: fixed;
+        top: -9999px;
+    `;
 
-    doc.setFontSize(12);
-    doc.text("📄 تأكيد موعد طبي", 20, 35);
+    div.innerHTML = `
+        <h2 style="text-align:center">🏥 عيادة طبيب الأطفال</h2>
+        <hr>
+        <p>👨‍⚕️ الطبيب: ${doctor}</p>
+        <p>👶 الطفل: ${name}</p>
+        <p>🎂 العمر: ${age}</p>
+        <p>📞 الهاتف: ${phone}</p>
+        <p>📅 التاريخ: ${date}</p>
+        <p>💰 الثمن: ${price}</p>
+        <hr>
+        <p style="text-align:center">✔ تم تأكيد الموعد بنجاح</p>
+    `;
 
-    doc.text("────────────────────", 20, 40);
+    document.body.appendChild(div);
 
-    doc.text("👨‍⚕️ الطبيب: " + doctor, 20, 55);
-    doc.text("👶 الطفل: " + name, 20, 65);
-    doc.text("🎂 العمر: " + age, 20, 75);
-    doc.text("📞 الهاتف: " + phone, 20, 85);
-    doc.text("📅 التاريخ: " + date, 20, 95);
-    doc.text("💰 الثمن: " + price, 20, 105);
-
-    doc.text("📍 العنوان: عيادة الأطفال - المركز الطبي", 20, 120);
-
-    doc.text("✔ تم تأكيد الموعد بنجاح", 20, 140);
-
-    doc.save("appointment.pdf");
+    html2canvas(div).then(canvas => {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const img = canvas.toDataURL("image/png");
+        doc.addImage(img, "PNG", 10, 10, 190, 0);
+        doc.save("appointment.pdf");
+        document.body.removeChild(div);
+    });
 }
