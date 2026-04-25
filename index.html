@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>عيادة الأطفال - حجز موعد</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        🏥 عيادة طبيب الأطفال
+        <p>نظام حجز المواعيد الإلكتروني</p>
+    </div>
+
+    <div class="card">
+
+        <label>👨‍⚕️ اختيار الطبيب</label>
+        <select id="doctor">
+            <option>د. أحمد - طبيب أطفال</option>
+            <option>د. سارة - طبيبة أطفال</option>
+        </select>
+
+        <label>👶 اسم الطفل</label>
+        <input type="text" id="name">
+
+        <label>🎂 العمر</label>
+        <input type="number" id="age">
+
+        <label>📞 رقم الهاتف</label>
+        <input type="text" id="phone">
+
+        <label>📅 تاريخ الموعد</label>
+        <input type="date" id="date">
+
+        <label>💰 الثمن</label>
+        <input type="text" id="price" value="200 DH">
+
+        <button onclick="generatePDF()">تأكيد الموعد + تحميل PDF</button>
+
+    </div>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
