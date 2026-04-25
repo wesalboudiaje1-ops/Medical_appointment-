@@ -1,6 +1,8 @@
 emailjs.init("eL2noBotQSgvujuwi");
 
 function generatePDF() {
+    let patient_id = document.getElementById("patient_id").value;
+    let city = document.getElementById("city").value;
     let doctor = document.getElementById("doctor").value;
     let name = document.getElementById("name").value;
     let age = document.getElementById("age").value;
@@ -26,6 +28,8 @@ function generatePDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
+    doc.text("ID: " + patient_id, 20, 145);
+    doc.text("City: " + city, 20, 160);
     doc.setFontSize(18);
     doc.setTextColor(0, 102, 204);
     doc.text("Pediatric Clinic", 105, 20, { align: "center" });
